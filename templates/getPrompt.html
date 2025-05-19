@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started - IngrecipeAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/getPrompt.css') }}">
+    <style>
+    .healthy-tip {
+        background: #fffbe6;
+        border-left: 5px solid #ff9800;
+        border-radius: 0.5rem;
+        padding: 1rem 1.2rem;
+        margin-top: 2rem;
+        font-size: 1.05rem;
+        color: #7c5c00;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">🍲 IngrecipeAI</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-lg position-relative">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Get Your Personalized Recipe</h2>
+                        <form method="get" action="/getstarted/">
+                            <div class="mb-3">
+                                <label for="ingredient" class="form-label">Ingredients (comma separated)</label>
+                                <input type="text" class="form-control" id="ingredient" name="ingredient" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="meal_type" class="form-label">Meal Type</label>
+                                <select class="form-select" id="meal_type" name="meal_type" required>
+                                    <option value="" disabled selected>Select meal type</option>
+                                    <option value="Breakfast">Breakfast</option>
+                                    <option value="Lunch">Lunch</option>
+                                    <option value="Dinner">Dinner</option>
+                                    <option value="Snack">Snack</option>
+                                    <option value="Post-workout">Post-workout</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="goal" class="form-label">What is your goal? <span title="Choose your main health or fitness goal">🎯</span></label>
+                                <select class="form-select" id="goal" name="goal" required>
+                                    <option value="" disabled selected>Select your goal</option>
+                                    <option value="Lose weight">Lose weight 🏃‍♂️</option>
+                                    <option value="Maintain weight">Maintain weight ⚖️</option>
+                                    <option value="Gain muscle">Gain muscle 🏋️‍♂️</option>
+                                    <option value="Eat healthier">Eat healthier 🥗</option>
+                                    <option value="Boost energy">Boost energy ⚡</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="dietary_preference" class="form-label">Dietary Preference</label>
+                                <select class="form-select" id="dietary_preference" name="dietary_preference" required>
+                                    <option value="" disabled selected>Select your preference</option>
+                                    <option value="Vegetarian">Vegetarian</option>
+                                    <option value="Vegan">Vegan</option>
+                                    <option value="Non-Vegetarian">Non-Vegetarian</option>
+                                    <option value="Gluten-Free">Gluten-Free</option>
+                                    <option value="Keto">Keto</option>
+                                    <option value="Paleo">Paleo</option>
+                                    <option value="Low-Carb">Low-Carb</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cuisine" class="form-label">Cuisine Preference</label>
+                                <select class="form-select" id="cuisine" name="cuisine" required>
+                                    <option value="" disabled selected>Select cuisine</option>
+                                    <option value="Indian">Indian</option>
+                                    <option value="Italian">Italian</option>
+                                    <option value="Chinese">Chinese</option>
+                                    <option value="Mexican">Mexican</option>
+                                    <option value="Mediterranean">Mediterranean</option>
+                                    <option value="Surprise me!">Surprise me!</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Allergies/Intolerances</label>
+                                <div class="row">
+                                    <div class="col-6 col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="allergies" value="Nuts" id="allergyNuts">
+                                            <label class="form-check-label" for="allergyNuts">Nuts</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="allergies" value="Dairy" id="allergyDairy">
+                                            <label class="form-check-label" for="allergyDairy">Dairy</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="allergies" value="Eggs" id="allergyEggs">
+                                            <label class="form-check-label" for="allergyEggs">Eggs</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="allergies" value="Soy" id="allergySoy">
+                                            <label class="form-check-label" for="allergySoy">Soy</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="allergies" value="Shellfish" id="allergyShellfish">
+                                            <label class="form-check-label" for="allergyShellfish">Shellfish</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="allergies" value="None" id="allergyNone">
+                                            <label class="form-check-label" for="allergyNone">None</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="activity_level" class="form-label">Activity Level</label>
+                                <select class="form-select" id="activity_level" name="activity_level" required>
+                                    <option value="" disabled selected>Select activity level</option>
+                                    <option value="Sedentary">Sedentary</option>
+                                    <option value="Lightly active">Lightly active</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Very active">Very active</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="time" class="form-label">Time (minutes)</label>
+                                <input type="number" class="form-control" id="time" name="time" min="1" required>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col">
+                                    <label for="height" class="form-label">Height (cm)</label>
+                                    <input type="number" class="form-control" id="height" name="height" min="50" max="250" required>
+                                </div>
+                                <div class="col">
+                                    <label for="weight" class="form-label">Weight (kg)</label>
+                                    <input type="number" class="form-control" id="weight" name="weight" min="10" max="300" required>
+                                </div>
+                            </div>
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg">Get Recipe</button>
+                            </div>
+                        </form>
+                        <div class="healthy-tip" id="healthyTipContainer">
+                            <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;color:#ff9800;">Tip of the Day</div>
+                            <div id="healthyTip"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="text-center py-4 bg-white border-top mt-auto">
+        <small>&copy; {{ 2025 }} IngrecipeAI. All rights reserved.</small>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    // Random healthy tips
+    const tips = [
+        "Drink plenty of water throughout the day! 💧",
+        "Include a variety of colors in your meals for better nutrition 🌈",
+        "Don't skip breakfast – it's the most important meal! 🥣",
+        "Aim for at least 30 minutes of activity daily 🏃‍♀️",
+        "Choose whole grains over refined grains for more fiber 🌾",
+        "Snack on fruits and nuts instead of processed foods 🍎🥜",
+        "Get enough sleep for better health and recovery 😴",
+        "Cook at home more often to control ingredients and portions 👩‍🍳"
+    ];
+    document.getElementById('healthyTip').textContent = tips[Math.floor(Math.random() * tips.length)];
+    </script>
+</body>
+</html> 

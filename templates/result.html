@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Results - IngrecipeAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/base.css') }}">
+    <style>
+    .bmi-info {
+        background: var(--card-bg-light, #fff);
+        border-radius: 1.2rem;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+        padding: 2rem 1.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .bmi-value {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--primary, #ff9800);
+    }
+    .bmi-category {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--secondary, #ff5722);
+        margin-bottom: 0.5rem;
+    }
+    .result-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .user-summary {
+        font-size: 1.08rem;
+        margin-bottom: 0.5rem;
+    }
+    .user-summary span {
+        font-weight: 600;
+    }
+    .goal-emoji {
+        font-size: 1.2em;
+        margin-left: 0.2em;
+    }
+    .activity-emoji {
+        font-size: 1.2em;
+        margin-left: 0.2em;
+    }
+    .card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-6px) scale(1.03);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    }
+    .macro-icon {
+        font-size: 1.1rem;
+        margin-right: 0.3rem;
+    }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">🍲 IngrecipeAI</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container py-5">
+        <div class="bmi-info">
+            <div class="result-icon">🩺</div>
+            <div class="bmi-category">Your BMI is <span class="bmi-value">{{ bmi }}</span> which is <span class="fw-bold">{{ bmi_category }}</span></div>
+            <div class="user-summary">
+                <span>Goal:</span> {{ goal }}
+                {% if goal == 'Lose weight' %}🏃‍♂️{% elif goal == 'Maintain weight' %}⚖️{% elif goal == 'Gain muscle' %}🏋️‍♂️{% elif goal == 'Eat healthier' %}🥗{% elif goal == 'Boost energy' %}⚡{% endif %}
+                <br>
+                <span>Dietary Preference:</span> {{ dietary_preference }}<br>
+                <span>Cuisine:</span> {{ cuisine }}<br>
+                <span>Activity Level:</span> {{ activity_level }}
+                {% if activity_level == 'Sedentary' %}🛋️{% elif activity_level == 'Lightly active' %}🚶‍♂️{% elif activity_level == 'Active' %}🏃‍♂️{% elif activity_level == 'Very active' %}🏋️‍♂️{% endif %}<br>
+                <span>Allergies/Intolerances:</span> {{ allergies|join(', ') if allergies else 'None' }}
+            </div>
+            <div>Hence, the recipes recommended for you are:</div>
+        </div>
+        {% if recipes and recipes|length > 0 %}
+        <div class="row justify-content-center">
+            {% for recipe in recipes %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">🍽️ {{ recipe.name }}</h5>
+                        <p><strong>Preparation Time:</strong> {{ recipe.preparation_time }}</p>
+                        <p><strong>Macros:</strong></p>
+                        <ul class="mb-2">
+                            <li><span class="macro-icon">🔥</span>Calories: {{ recipe.macros.calories }}</li>
+                            <li><span class="macro-icon">💪</span>Protein: {{ recipe.macros.protein }}</li>
+                            <li><span class="macro-icon">🍚</span>Carbohydrates: {{ recipe.macros.carbohydrates }}</li>
+                            <li><span class="macro-icon">🥑</span>Fats: {{ recipe.macros.fats }}</li>
+                        </ul>
+                        <p><strong>Ingredients:</strong></p>
+                        <ul>
+                            {% for ing in recipe.ingredients %}
+                            <li>{{ ing }}</li>
+                            {% endfor %}
+                        </ul>
+                        <p><strong>Instructions:</strong></p>
+                        <ol>
+                            {% for step in recipe.instructions %}
+                            <li>{{ step }}</li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-warning text-center">No recipes found. Please try again with different inputs.</div>
+        {% endif %}
+        <div class="text-center mt-4">
+            <a href="/getstarted/" class="btn btn-outline-primary">Try Again</a>
+        </div>
+    </main>
+    <footer class="text-center py-4 bg-white border-top mt-auto">
+        <small>&copy; {{ 2025 }} IngrecipeAI. All rights reserved.</small>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

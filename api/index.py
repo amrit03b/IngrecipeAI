@@ -7,7 +7,12 @@ from dotenv import load_dotenv
 import requests
 
 load_dotenv()
-app = Flask(__name__)
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(os.path.dirname(__file__), '../templates'),
+    static_folder=os.path.join(os.path.dirname(__file__), '../static')
+)
 
 def get_bmi_category(bmi):
     if bmi < 18.5:
